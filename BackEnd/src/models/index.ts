@@ -6,3 +6,4 @@ export * from './solicitud.model';
 export * from './mascota.model';
 export * from './tipo-animal.model';
 export * from './registro.model';
+//Cristhian gonzalez
