@@ -1,4 +1,4 @@
-import {model, property, hasMany, hasOne} from '@loopback/repository';
+import {hasMany, hasOne, model, property} from '@loopback/repository';
 import {Persona} from '.';
 import {Mascotas} from './mascotas.model';
 import {ProgramarVisita} from './programar-visita.model';
@@ -17,6 +17,18 @@ export class Propietario extends Persona {
     required: true,
   })
   Direccion: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Correo: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Clave: string;
 
   @hasMany(() => Mascotas)
   mascotas: Mascotas[];
