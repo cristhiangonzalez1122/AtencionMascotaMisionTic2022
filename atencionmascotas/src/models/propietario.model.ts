@@ -26,7 +26,7 @@ export class Propietario extends Persona {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   Clave: string;
 
