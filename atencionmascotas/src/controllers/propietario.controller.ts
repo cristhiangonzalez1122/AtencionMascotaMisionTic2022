@@ -20,10 +20,10 @@ const fetch = require('node-fetch');
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
-    public propietarioRepository : PropietarioRepository,
+    public propietarioRepository: PropietarioRepository,
     @service(AutenticacionService)
     public servicioAutenticacion: AutenticacionService
-  ) {}
+  ) { }
 
   @post('/propietarios')
   @response(200, {
@@ -54,9 +54,15 @@ export class PropietarioController {
     let asunto = 'Registro en la App Atencion Mascotas';
     let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo} y su contraseña es: ${clave}`;
     fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
-        .then((data: any) => {
+      .then((data: any) => {
         console.log(data);
-    });
+      });
+    let destino2 = propietario.Telefono;
+    let mensaje = `hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
+    fetch(`http://127.0.0.1:5000/envio-sms?mensaje=${mensaje}&telefono=${destino2}`)
+      .then((data: any) => {
+        console.log(data);
+      });
     return objetoPropietario;
   }
 
