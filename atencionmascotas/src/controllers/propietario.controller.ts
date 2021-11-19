@@ -1,29 +1,28 @@
+import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Propietario} from '../models';
 import {PropietarioRepository} from '../repositories';
+import {AutenticacionService} from '../services';
+const fetch = require('node-fetch');
 
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
     public propietarioRepository : PropietarioRepository,
+    @service(AutenticacionService)
+    public servicioAutenticacion: AutenticacionService
   ) {}
 
   @post('/propietarios')
@@ -44,7 +43,21 @@ export class PropietarioController {
     })
     propietario: Omit<Propietario, 'id'>,
   ): Promise<Propietario> {
-    return this.propietarioRepository.create(propietario);
+
+    let clave = this.servicioAutenticacion.GenerarClave();
+    let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
+    propietario.Clave = claveCifrada;
+    let objetoPropietario = await this.propietarioRepository.create(propietario);
+
+    //Notificar al usuario
+    let destino = propietario.Correo;
+    let asunto = 'Registro en la App Atencion Mascotas';
+    let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo} y su contraseña es: ${clave}`;
+    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+        .then((data: any) => {
+        console.log(data);
+    });
+    return objetoPropietario;
   }
 
   @get('/propietarios/count')
