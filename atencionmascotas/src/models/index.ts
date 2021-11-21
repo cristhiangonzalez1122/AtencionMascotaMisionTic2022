@@ -6,3 +6,4 @@ export * from './mascotas.model';
 export * from './programar-visita.model';
 export * from './centro-veterinario.model';
 export * from './visita-medico.model';
+export * from './credenciales.model';
