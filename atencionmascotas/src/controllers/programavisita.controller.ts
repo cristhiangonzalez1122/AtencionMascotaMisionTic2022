@@ -1,21 +1,16 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {ProgramarVisita} from '../models';
 import {ProgramarVisitaRepository} from '../repositories';
@@ -23,9 +18,9 @@ import {ProgramarVisitaRepository} from '../repositories';
 export class ProgramavisitaController {
   constructor(
     @repository(ProgramarVisitaRepository)
-    public programarVisitaRepository : ProgramarVisitaRepository,
-  ) {}
-
+    public programarVisitaRepository: ProgramarVisitaRepository,
+  ) { }
+  @authenticate("admin")
   @post('/programar-visitas')
   @response(200, {
     description: 'ProgramarVisita model instance',
