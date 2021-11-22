@@ -1,4 +1,3 @@
-import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,7 +19,7 @@ export class ProgramavisitaController {
     @repository(ProgramarVisitaRepository)
     public programarVisitaRepository: ProgramarVisitaRepository,
   ) { }
-  @authenticate("admin")
+
   @post('/programar-visitas')
   @response(200, {
     description: 'ProgramarVisita model instance',
