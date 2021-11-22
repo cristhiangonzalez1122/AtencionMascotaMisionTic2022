@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {service} from '@loopback/core';
 import {
   Count,
@@ -9,14 +10,15 @@ import {
 } from '@loopback/repository';
 import {
   del, get,
-  getModelSchemaRef, param, patch, post, put, requestBody,
+  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
-import {Propietario} from '../models';
+import {Llaves} from '../config/llaves';
+import {Credenciales, Propietario} from '../models';
 import {PropietarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 const fetch = require('node-fetch');
-
+@authenticate("admin")
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
@@ -24,6 +26,33 @@ export class PropietarioController {
     @service(AutenticacionService)
     public servicioAutenticacion: AutenticacionService
   ) { }
+
+
+  @post("/identificarPropietario", {
+    responses: {
+      '200': {
+        description: "Identificacion de usuarios"
+      }
+    }
+  })
+  async identificarPropietario(
+    @requestBody() credenciales: Credenciales
+  ) {
+    let p = await this.servicioAutenticacion.IdentificarPropietario(credenciales.usuario, credenciales.clave);
+    if (p) {
+      let token = this.servicioAutenticacion.GenerarTokenJWT(p);
+      return {
+        datos: {
+          nombre: p.Nombres,
+          correo: p.Correo,
+          id: p.id
+        },
+        tk: token
+      }
+    } else {
+      throw new HttpErrors[401]("Datos invalidos");
+    }
+  }
 
   @post('/propietarios')
   @response(200, {
@@ -53,13 +82,13 @@ export class PropietarioController {
     let destino = propietario.Correo;
     let asunto = 'Registro en la App Atencion Mascotas';
     let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo} y su contraseña es: ${clave}`;
-    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+    fetch(`${Llaves.urlServicioNotificaciones}/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
       .then((data: any) => {
         console.log(data);
       });
     let destino2 = propietario.Telefono;
     let mensaje = `hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
-    fetch(`http://127.0.0.1:5000/envio-sms?mensaje=${mensaje}&telefono=${destino2}`)
+    fetch(`${Llaves.urlServicioNotificaciones}/envio-sms?mensaje=${mensaje}&telefono=${destino2}`)
       .then((data: any) => {
         console.log(data);
       });
