@@ -1,4 +1,4 @@
-import {model, property, belongsTo, hasOne} from '@loopback/repository';
+import {belongsTo, hasOne, model, property} from '@loopback/repository';
 import {Persona} from '.';
 import {CentroVeterinario} from './centro-veterinario.model';
 import {ProgramarVisita} from './programar-visita.model';
@@ -18,6 +18,18 @@ export class Veterinario extends Persona {
     required: true,
   })
   TarjetaProfesional: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Correo: string;
+
+  @property({
+    type: 'string',
+    required: false,
+  })
+  clave: string;
 
   @belongsTo(() => CentroVeterinario)
   centroVeterinarioId: string;
