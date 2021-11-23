@@ -1,30 +1,57 @@
+import {authenticate} from '@loopback/authentication';
+import {service} from '@loopback/core';
 import {
   Count,
-  CountSchema,
-  Filter,
-  FilterExcludingWhere,
-  repository,
-  Where,
+  CountSchema, Filter, FilterExcludingWhere, repository, Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
-import {Veterinario} from '../models';
+import {Llaves} from '../config/llaves';
+import {Credenciales, Veterinario} from '../models';
 import {VeterinarioRepository} from '../repositories';
-
+import {AutenticacionService} from '../services';
+const fetch = require('node-fetch');
+@authenticate("admin")
 export class VeterinarioController {
   constructor(
     @repository(VeterinarioRepository)
-    public veterinarioRepository : VeterinarioRepository,
-  ) {}
+    public veterinarioRepository: VeterinarioRepository,
+    @service(AutenticacionService)
+    public servicioAutenticacion: AutenticacionService
+  ) { }
+
+  @post('/identificarVeterinario', {
+    responses: {
+      '200': {
+        description: "Identificacion de usuarios"
+      }
+    }
+  })
+  async validarVeterinario(
+    @requestBody() credenciales: Credenciales
+  ) {
+
+    let vet = await this.servicioAutenticacion.IdentificarVeterinario(credenciales.usuario, credenciales.clave);
+    if (vet) {
+      let token = this.servicioAutenticacion.GenerarTokenVeterianrio(vet);
+      return {
+        datos: {
+          nombre: vet.Nombres,
+          correo: vet.Correo,
+          id: vet.id
+        },
+        tk: token
+      }
+    } else {
+      throw new HttpErrors[401]("Datos invalidos");
+    }
+  }
+
+
+
 
   @post('/veterinarios')
   @response(200, {
@@ -44,7 +71,26 @@ export class VeterinarioController {
     })
     veterinario: Omit<Veterinario, 'id'>,
   ): Promise<Veterinario> {
-    return this.veterinarioRepository.create(veterinario);
+    let clave = this.servicioAutenticacion.GenerarClave();
+    let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
+    veterinario.clave = claveCifrada;
+    let objVeterinario = await this.veterinarioRepository.create(veterinario);
+
+    let destino = veterinario.Correo;
+    let asunto = 'Registro en la App Atencion Mascotas';
+    let contenido = `Hola ${veterinario.Nombres}, su nombre de usuario es: ${veterinario.Correo} y su contraseña es: ${clave}`;
+    fetch(`${Llaves.urlServicioNotificaciones}/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+      .then((data: any) => {
+        console.log(data);
+      });
+    let sms = veterinario.Telefono;
+    let mensaje = `hola ${veterinario.Nombres}, su nombre de usuario es: ${veterinario.Correo}, y su contraseña es: ${clave}`;
+    fetch(`${Llaves.urlServicioNotificaciones}/envio-sms?mensaje=${mensaje}&telefono=${sms}`)
+      .then((data: any) => {
+        console.log(data);
+      });
+    return objVeterinario;
+
   }
 
   @get('/veterinarios/count')
@@ -57,7 +103,7 @@ export class VeterinarioController {
   ): Promise<Count> {
     return this.veterinarioRepository.count(where);
   }
-
+  @authenticate.skip()
   @get('/veterinarios')
   @response(200, {
     description: 'Array of Veterinario model instances',

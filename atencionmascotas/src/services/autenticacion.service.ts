@@ -1,8 +1,8 @@
 import { /* inject, */ BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {Llaves} from '../config/llaves';
-import {Propietario} from '../models';
-import {PropietarioRepository} from '../repositories';
+import {Propietario, Veterinario} from '../models';
+import {PropietarioRepository, VeterinarioRepository} from '../repositories';
 
 const generador = require("password-generator");
 const cryptoJS = require("crypto-js");
@@ -11,7 +11,9 @@ const jwt = require('jsonwebtoken');
 export class AutenticacionService {
   constructor(
     @repository(PropietarioRepository)
-    public propietarioRePository: PropietarioRepository
+    public propietarioRePository: PropietarioRepository,
+    @repository(VeterinarioRepository)
+    public veterinarioRepository: VeterinarioRepository
   ) { }
 
   /*
@@ -58,6 +60,45 @@ export class AutenticacionService {
   }
 
   validarTokenJWT(token: string) {
+    try {
+      let datos = jwt.verify(token, Llaves.claveJWT);
+      return datos;
+    } catch {
+      return false;
+    }
+  }
+
+
+  IdentificarVeterinario(usuario: string, clave: string) {
+
+    try {
+      let v = this.veterinarioRepository.findOne({where: {Correo: usuario, clave: clave}});
+      if (v) {
+        return v;
+      }
+      return false
+    } catch {
+      return false;
+
+    }
+
+  }
+
+
+  GenerarTokenVeterianrio(Veterinario: Veterinario) {
+    let token = jwt.sign({
+      data: {
+        id: Veterinario.id,
+        correo: Veterinario.Correo,
+        nombre: Veterinario.Nombres + " " + Veterinario.Apellidos
+      }
+
+    },
+      Llaves.claveJWT);
+    return token;
+  }
+
+  validarTokenVeterinario(token: string) {
     try {
       let datos = jwt.verify(token, Llaves.claveJWT);
       return datos;
