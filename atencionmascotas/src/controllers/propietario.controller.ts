@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -21,7 +22,7 @@ import { Propietario } from '../models';
 import { PropietarioRepository } from '../repositories';
 import { AutenticacionService } from '../services';
 const fetch = require('node-fetch');
-
+@authenticate("admin")
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
