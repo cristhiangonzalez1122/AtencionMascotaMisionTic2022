@@ -1,63 +1,39 @@
-import {authenticate} from '@loopback/authentication';
-import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
-  del, get,
-  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
-  response
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+  response,
 } from '@loopback/rest';
-import {Llaves} from '../config/llaves';
-import {Credenciales, Propietario} from '../models';
-import {PropietarioRepository} from '../repositories';
-import {AutenticacionService} from '../services';
+import { Propietario } from '../models';
+import { PropietarioRepository } from '../repositories';
+import { AutenticacionService } from '../services';
 const fetch = require('node-fetch');
-@authenticate("admin")
+
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
     public propietarioRepository: PropietarioRepository,
-    @service(AutenticacionService)
+    @repository(AutenticacionService)
     public servicioAutenticacion: AutenticacionService
   ) { }
-
-
-  @post("/identificarPropietario", {
-    responses: {
-      '200': {
-        description: "Identificacion de usuarios"
-      }
-    }
-  })
-  async identificarPropietario(
-    @requestBody() credenciales: Credenciales
-  ) {
-    let p = await this.servicioAutenticacion.IdentificarPropietario(credenciales.usuario, credenciales.clave);
-    if (p) {
-      let token = this.servicioAutenticacion.GenerarTokenJWT(p);
-      return {
-        datos: {
-          nombre: p.Nombres,
-          correo: p.Correo,
-          id: p.id
-        },
-        tk: token
-      }
-    } else {
-      throw new HttpErrors[401]("Datos invalidos");
-    }
-  }
 
   @post('/propietarios')
   @response(200, {
     description: 'Propietario model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Propietario)}},
+    content: { 'application/json': { schema: getModelSchemaRef(Propietario) } },
   })
   async create(
     @requestBody({
@@ -76,29 +52,26 @@ export class PropietarioController {
     let clave = this.servicioAutenticacion.GenerarClave();
     let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
     propietario.Clave = claveCifrada;
-    let objetoPropietario = await this.propietarioRepository.create(propietario);
+    let p = await this.propietarioRepository.create(propietario);
 
-    //Notificar al usuario
+    //Notificar Usuario
     let destino = propietario.Correo;
-    let asunto = 'Registro en la App Atencion Mascotas';
-    let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo} y su contraseña es: ${clave}`;
-    fetch(`${Llaves.urlServicioNotificaciones}/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
-      .then((data: any) => {
+    let asunto = 'Registro en la plataforma'
+    let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
+    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`).
+      then((data: any) => {
         console.log(data);
-      });
-    let destino2 = propietario.Telefono;
-    let mensaje = `hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
-    fetch(`${Llaves.urlServicioNotificaciones}/envio-sms?mensaje=${mensaje}&telefono=${destino2}`)
-      .then((data: any) => {
-        console.log(data);
-      });
-    return objetoPropietario;
+      })
+    return p;
+
+
+
   }
 
   @get('/propietarios/count')
   @response(200, {
     description: 'Propietario model count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async count(
     @param.where(Propietario) where?: Where<Propietario>,
@@ -113,7 +86,7 @@ export class PropietarioController {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(Propietario, {includeRelations: true}),
+          items: getModelSchemaRef(Propietario, { includeRelations: true }),
         },
       },
     },
@@ -127,13 +100,13 @@ export class PropietarioController {
   @patch('/propietarios')
   @response(200, {
     description: 'Propietario PATCH success count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async updateAll(
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Propietario, {partial: true}),
+          schema: getModelSchemaRef(Propietario, { partial: true }),
         },
       },
     })
@@ -148,13 +121,13 @@ export class PropietarioController {
     description: 'Propietario model instance',
     content: {
       'application/json': {
-        schema: getModelSchemaRef(Propietario, {includeRelations: true}),
+        schema: getModelSchemaRef(Propietario, { includeRelations: true }),
       },
     },
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Propietario, {exclude: 'where'}) filter?: FilterExcludingWhere<Propietario>
+    @param.filter(Propietario, { exclude: 'where' }) filter?: FilterExcludingWhere<Propietario>
   ): Promise<Propietario> {
     return this.propietarioRepository.findById(id, filter);
   }
@@ -168,7 +141,7 @@ export class PropietarioController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Propietario, {partial: true}),
+          schema: getModelSchemaRef(Propietario, { partial: true }),
         },
       },
     })
