@@ -14,8 +14,23 @@ const routes: Routes = [
     redirectTo: '/inicio'
   },
   {
-    path:"administracion"
-  }
+    path:'seguridad',
+    loadChildren: () => import("./modulos/seguridad/seguridad.module").then(x => x.SeguridadModule)
+
+  },
+  {
+    path:'admninistracion',
+    loadChildren: () => import("./modulos/administracion/administracion.module").then(x => x.AdministracionModule)
+
+  },
+  {
+    path:'programar-visita',
+    loadChildren: () => import("./modulos/programar-visita/programar-visita.module").then(x => x.ProgramarVisitaModule)
+  },
+  {
+    path:'visita-medico',
+    loadChildren: () => import("./modulos/visita-medico/visita-medico.module").then(x => x.VisitaMedicoModule)
+  },
   {
     path:'**',
     component: ErrorComponent
