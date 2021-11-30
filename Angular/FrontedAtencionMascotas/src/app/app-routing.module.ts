@@ -13,10 +13,7 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: '/inicio'
   },
-  {
-    path: '**',
-    component: ErrorComponent
-  },
+
   {
     path: 'seguridad',
     loadChildren: () => import("./modulos/seguridad/seguridad.module").then(x => x.SeguridadModule)
@@ -32,6 +29,10 @@ const routes: Routes = [
   {
     path: 'visita-medico',
     loadChildren: () => import("./modulos/visita-medico/visita-medico.module").then(x => x.VisitaMedicoModule)
+  },
+  {
+    path: '**',
+    component: ErrorComponent
   }
 ];
 
