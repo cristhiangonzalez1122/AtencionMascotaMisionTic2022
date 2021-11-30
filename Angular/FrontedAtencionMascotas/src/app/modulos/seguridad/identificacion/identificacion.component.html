@@ -1,1 +1,43 @@
-<p>identificacion works!</p>
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Ingreso de Usuario</title>
+
+  </head>
+  <body>
+     <div class="container">
+        <div class="row text-center login-page">
+	   <div class="col-md-12 login-form">
+	      <form action="claseDestino.php" method="post">
+	         <div class="row">
+		    <div class="col-md-12 login-form-header">
+		       <p class="login-form-font-header">Ingreso<span></span><p>
+		    </div>
+		</div>
+		<div class="row">
+		   <div class="input-field col s12">
+         <i class="material-icons prefix">email</i>
+		      <input  type="email"  required/>
+          <label for="email">Usuario</label>
+		   </div>
+		</div>
+		<div class="row">
+		   <div class="input-field col s12">
+        <i class="material-icons prefix">vpn_key</i>
+		      <input class="validate" type="password"  required/>
+          <label for="email">Contraseña</label>
+		   </div>
+		</div>
+		<div class="row">
+		   <div class="col-md-12 login-from-row">
+		      <button class="btn btn-info">Entrar</button>
+		   </div>
+		</div>
+	    </form>
+	</div>
+     </div>
+  </div>
+</body>
+</html>
