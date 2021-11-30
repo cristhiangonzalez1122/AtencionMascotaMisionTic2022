@@ -14,6 +14,9 @@ const routes: Routes = [
     redirectTo: '/inicio'
   },
   {
+    path:"administracion"
+  }
+  {
     path:'**',
     component: ErrorComponent
   }
