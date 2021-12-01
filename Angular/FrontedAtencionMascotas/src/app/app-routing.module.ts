@@ -9,30 +9,30 @@ const routes: Routes = [
     component: InicioComponent
   },
   {
-    path:" ",
+    path:"",
     pathMatch: 'full',
     redirectTo: '/inicio'
   },
   {
-    path:'seguridad',
+    path: 'seguridad',
     loadChildren: () => import("./modulos/seguridad/seguridad.module").then(x => x.SeguridadModule)
 
   },
   {
-    path:'administracion',
+    path: 'administracion',
     loadChildren: () => import("./modulos/administracion/administracion.module").then(x => x.AdministracionModule)
 
   },
   {
-    path:'programar-visita',
+    path: 'programar-visita',
     loadChildren: () => import("./modulos/programar-visita/programar-visita.module").then(x => x.ProgramarVisitaModule)
   },
   {
-    path:'visita-medico',
+    path: 'visita-medico',
     loadChildren: () => import("./modulos/visita-medico/visita-medico.module").then(x => x.VisitaMedicoModule)
   },
   {
-    path:'**',
+    path: '**',
     component: ErrorComponent
   }
 ];

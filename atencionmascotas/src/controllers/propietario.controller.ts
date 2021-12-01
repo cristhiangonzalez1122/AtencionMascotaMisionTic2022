@@ -17,8 +17,9 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
-import { Propietario } from '../models';
+import { Credenciales, Propietario } from '../models';
 import { PropietarioRepository } from '../repositories';
 import { AutenticacionService } from '../services';
 const fetch = require('node-fetch');
@@ -30,6 +31,33 @@ export class PropietarioController {
     @repository(AutenticacionService)
     public servicioAutenticacion: AutenticacionService
   ) { }
+
+  @post('/identificarPropietario', {
+    responses: {
+      '200': {
+        description: "Identificacion de usuarios"
+      }
+    }
+  })
+  async validarPropietario(
+    @requestBody() credenciales: Credenciales
+  ) {
+
+    let prop = await this.servicioAutenticacion.IdentificarPropietario(credenciales.usuario, credenciales.clave);
+    if (prop) {
+      let token = this.servicioAutenticacion.GenerarTokenJWT(prop);
+      return {
+        datos: {
+          nombre: prop.Nombres,
+          correo: prop.Correo,
+          id: prop.id
+        },
+        tk: token
+      }
+    } else {
+      throw new HttpErrors[401]("Datos invalidos");
+    }
+  }
 
   @post('/propietarios')
   @response(200, {
