@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModeloIdentificar } from '../modelos/identificar.modelo';
@@ -7,15 +7,22 @@ import { ModeloIdentificar } from '../modelos/identificar.modelo';
   providedIn: 'root'
 })
 export class SeguridadService {
-
+  url = 'http://localhost:3000';
   constructor(private http: HttpClient) {
 
 
-   }
+  }
 
-Identificar(usuario: string, clave: string): Observable<ModeloIdentificar>{
-  return this.http.post("localhost:3000/identificarPropietario");
-}
+  Identificar(usuario: string, clave: string): Observable<ModeloIdentificar> {
+    return this.http.post<ModeloIdentificar>(`${this.url}/identificarPropietario`, {
+      usuario: usuario,
+      clave: clave
+    }, {
+      headers: new HttpHeaders({
+
+      })
+    })
+  }
 
 
 }
