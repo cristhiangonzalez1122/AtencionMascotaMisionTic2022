@@ -23,8 +23,27 @@ export class SeguridadService {
       })
     })
   }
+  AlmacenarSesion(datos: ModeloIdentificar) {
+    let stringDatos = JSON.stringify(datos);
+    localStorage.setItem("datosSesion", stringDatos);
+  }
 
+  ObtenerInformacionSesion(){
+    let datosString = localStorage.getItem("datosSesion");
+    if(datosString){
+      let datos = JSON.parse(datosString);
+      return datos;
+    }else{
+      return null;
+    }
+  }
+
+  EliminarInformacionSesion(){
+    localStorage.removeItem("datosSesion");
+  }
 
 }
+
+
 
 
