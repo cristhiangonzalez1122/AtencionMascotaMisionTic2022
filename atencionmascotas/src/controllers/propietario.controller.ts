@@ -1,4 +1,4 @@
-import {service} from '@loopback/core';
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -9,21 +9,48 @@ import {
 } from '@loopback/repository';
 import {
   del, get,
-  getModelSchemaRef, param, patch, post, put, requestBody,
+  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
-import {Propietario} from '../models';
+import {Credenciales, Propietario} from '../models';
 import {PropietarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 const fetch = require('node-fetch');
-
+@authenticate("admin")
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
-    public propietarioRepository : PropietarioRepository,
-    @service(AutenticacionService)
+    public propietarioRepository: PropietarioRepository,
+    @repository(AutenticacionService)
     public servicioAutenticacion: AutenticacionService
-  ) {}
+  ) { }
+
+  @post('/identificarPropietario', {
+    responses: {
+      '200': {
+        description: "Identificacion de usuarios"
+      }
+    }
+  })
+  async validarPropietario(
+    @requestBody() credenciales: Credenciales
+  ) {
+
+    let prop = await this.servicioAutenticacion.IdentificarPropietario(credenciales.usuario, credenciales.clave);
+    if (prop) {
+      let token = this.servicioAutenticacion.GenerarTokenJWT(prop);
+      return {
+        datos: {
+          nombre: prop.Nombres,
+          correo: prop.Correo,
+          id: prop.id
+        },
+        tk: token
+      }
+    } else {
+      throw new HttpErrors[401]("Datos invalidos");
+    }
+  }
 
   @post('/propietarios')
   @response(200, {
@@ -47,17 +74,20 @@ export class PropietarioController {
     let clave = this.servicioAutenticacion.GenerarClave();
     let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
     propietario.Clave = claveCifrada;
-    let objetoPropietario = await this.propietarioRepository.create(propietario);
+    let p = await this.propietarioRepository.create(propietario);
 
-    //Notificar al usuario
+    //Notificar Usuario
     let destino = propietario.Correo;
-    let asunto = 'Registro en la App Atencion Mascotas';
-    let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo} y su contraseña es: ${clave}`;
-    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
-        .then((data: any) => {
+    let asunto = 'Registro en la plataforma'
+    let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
+    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`).
+      then((data: any) => {
         console.log(data);
-    });
-    return objetoPropietario;
+      })
+    return p;
+
+
+
   }
 
   @get('/propietarios/count')

@@ -1,21 +1,16 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {TipoAnimal} from '../models';
 import {TipoAnimalRepository} from '../repositories';
@@ -23,9 +18,9 @@ import {TipoAnimalRepository} from '../repositories';
 export class TipoAnimalController {
   constructor(
     @repository(TipoAnimalRepository)
-    public tipoAnimalRepository : TipoAnimalRepository,
-  ) {}
-
+    public tipoAnimalRepository: TipoAnimalRepository,
+  ) { }
+  @authenticate("admin")
   @post('/tipo-animals')
   @response(200, {
     description: 'TipoAnimal model instance',
