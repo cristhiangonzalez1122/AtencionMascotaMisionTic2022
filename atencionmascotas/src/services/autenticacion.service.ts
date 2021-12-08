@@ -46,7 +46,7 @@ export class AutenticacionService {
   }
 
 
-  GenerarTokenJWT(Propietario: Propietario) {
+  GenerarTokenPropietario(Propietario: Propietario) {
     let token = jwt.sign({
       data: {
         id: Propietario.id,
@@ -59,7 +59,7 @@ export class AutenticacionService {
     return token;
   }
 
-  validarTokenJWT(token: string) {
+  validarToken(token: string) {
     try {
       let datos = jwt.verify(token, Llaves.claveJWT);
       return datos;
@@ -87,7 +87,7 @@ export class AutenticacionService {
 
   GenerarTokenVeterianrio(Veterinario: Veterinario) {
     let token = jwt.sign({
-      data: {
+      data1: {
         id: Veterinario.id,
         correo: Veterinario.Correo,
         nombre: Veterinario.Nombres + " " + Veterinario.Apellidos
@@ -100,8 +100,8 @@ export class AutenticacionService {
 
   validarTokenVeterinario(token: string) {
     try {
-      let datos = jwt.verify(token, Llaves.claveJWT);
-      return datos;
+      let datos1 = jwt.verify(token, Llaves.claveJWT);
+      return datos1;
     } catch {
       return false;
     }

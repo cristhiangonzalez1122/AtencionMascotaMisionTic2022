@@ -1,21 +1,16 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {VisitaMedico} from '../models';
 import {VisitaMedicoRepository} from '../repositories';
@@ -23,8 +18,9 @@ import {VisitaMedicoRepository} from '../repositories';
 export class VisitamedicaController {
   constructor(
     @repository(VisitaMedicoRepository)
-    public visitaMedicoRepository : VisitaMedicoRepository,
-  ) {}
+    public visitaMedicoRepository: VisitaMedicoRepository,
+  ) { }
+  @authenticate("vetrianario")
 
   @post('/visita-medicos')
   @response(200, {

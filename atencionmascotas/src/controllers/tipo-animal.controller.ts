@@ -20,7 +20,7 @@ export class TipoAnimalController {
     @repository(TipoAnimalRepository)
     public tipoAnimalRepository: TipoAnimalRepository,
   ) { }
-  @authenticate("admin")
+  @authenticate("veterinario")
   @post('/tipo-animals')
   @response(200, {
     description: 'TipoAnimal model instance',

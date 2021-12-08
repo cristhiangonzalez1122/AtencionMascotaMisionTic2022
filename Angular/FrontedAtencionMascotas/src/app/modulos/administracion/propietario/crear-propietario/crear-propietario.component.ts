@@ -10,6 +10,11 @@ export class CrearPropietarioComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  InformacionUsuario(){
+    alert("Creado con exito")
   }
 
 }

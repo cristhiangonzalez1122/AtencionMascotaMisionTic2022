@@ -20,7 +20,8 @@ export class MascotasController {
     @repository(MascotasRepository)
     public mascotasRepository: MascotasRepository,
   ) { }
-  @authenticate("admin")
+  @authenticate("propietario")
+
   @post('/mascotas')
   @response(200, {
     description: 'Mascotas model instance',
