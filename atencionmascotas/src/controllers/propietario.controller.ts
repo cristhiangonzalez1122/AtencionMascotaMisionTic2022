@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {service} from '@loopback/core';
 import {
   Count,
@@ -17,6 +18,7 @@ import {Credenciales, Propietario} from '../models';
 import {PropietarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 const fetch = require('node-fetch');
+@authenticate("Propietario")
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
@@ -92,7 +94,7 @@ export class PropietarioController {
       });
     return objPropietario;
   }
-
+  @authenticate.skip()
   @get('/propietarios/count')
   @response(200, {
     description: 'Propietario model count',
@@ -103,7 +105,7 @@ export class PropietarioController {
   ): Promise<Count> {
     return this.propietarioRepository.count(where);
   }
-
+  @authenticate.skip()
   @get('/propietarios')
   @response(200, {
     description: 'Array of Propietario model instances',
