@@ -13,8 +13,5 @@ export class CrearPropietarioComponent implements OnInit {
 
   }
 
-  InformacionUsuario(){
-    alert("Creado con exito")
-  }
 
 }

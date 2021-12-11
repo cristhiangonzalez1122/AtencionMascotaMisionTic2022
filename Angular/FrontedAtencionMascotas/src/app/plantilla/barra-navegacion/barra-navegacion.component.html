@@ -1,38 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mascotas felices</title>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
 
-  <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/inicio">Mascotas Felices</a>
 
-    <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/inicio">Mascotas Felices</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"> </span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"> </span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" routerLink="inicio">Inicio</a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link active" routerLink="inicio">Inicio</a>
-          </li>
+            <li class="nav-item" >
+              <a class="nav-link active" routerLink="/programar-visita/crear-consulta" >Solicitar visita</a>
+            </li>
+            <li  class="nav-item" *ngif="seInicioSesion" >
+              <a class="nav-link active" routerLink="inicio" >Veterinario</a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link active" routerLink="/programar-visita/crear-consulta">Solicitar visita</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" routerLink="inicio">Veterinario</a>
-          </li>
+          </ul>
+          <ul >
 
-        </ul>
-        <ul>
-          <li class="navbar-nav me-auto mb-2 mb-lg-0">
-            <a class="nav-link active" aria-current="page"
-              routerLink="/administracion/crear-propietario">Registrarse</a>
-          </li>
-          <li class="navbar-nav me-auto mb-2 mb-lg-0">
-            <a class="nav-link active" aria-current="page" routerLink="/seguridad/identificacion">Iniciar Sesion</a>
-          </li>
-        </ul>
+            <li  class="navbar-nav me-auto mb-2 mb-lg-0" >
+              <a class="nav-link active" aria-current="page" routerLink="/seguridad/identificacion" >Iniciar Sesion</a>
+            </li>
+            <li class="navbar-nav me-auto mb-2 mb-lg-0"  >
+              <a class="nav-link active" aria-current="page" routerLink="/seguridad/cerrar-sesion" >Cerrar Sesion</a>
+            </li>
+          </ul>
 
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+
+  </header>
+
+</body>
+</html>
+
