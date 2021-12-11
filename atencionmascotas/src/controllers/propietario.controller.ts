@@ -18,7 +18,7 @@ import {Credenciales, Propietario} from '../models';
 import {PropietarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 const fetch = require('node-fetch');
-@authenticate("Propietario")
+
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
