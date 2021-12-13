@@ -1,8 +1,5 @@
 import {authenticate} from '@loopback/authentication';
-<<<<<<< HEAD
 import {service} from '@loopback/core';
-=======
->>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
 import {
   Count,
   CountSchema,
@@ -16,20 +13,16 @@ import {
   getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
-<<<<<<< HEAD
 import {Llaves} from '../config/llaves';
-=======
->>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
 import {Credenciales, Propietario} from '../models';
 import {PropietarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 const fetch = require('node-fetch');
-@authenticate("admin")
+
 export class PropietarioController {
   constructor(
     @repository(PropietarioRepository)
     public propietarioRepository: PropietarioRepository,
-<<<<<<< HEAD
     @service(AutenticacionService)
     public servicioAutenticacion: AutenticacionService
   ) { }
@@ -48,26 +41,6 @@ export class PropietarioController {
     let prop = await this.servicioAutenticacion.IdentificarPropietario(credendiales.usuario, credendiales.clave);
     if (prop) {
       let token = this.servicioAutenticacion.GenerarTokenPropietario(prop);
-=======
-    @repository(AutenticacionService)
-    public servicioAutenticacion: AutenticacionService
-  ) { }
-
-  @post('/identificarPropietario', {
-    responses: {
-      '200': {
-        description: "Identificacion de usuarios"
-      }
-    }
-  })
-  async validarPropietario(
-    @requestBody() credenciales: Credenciales
-  ) {
-
-    let prop = await this.servicioAutenticacion.IdentificarPropietario(credenciales.usuario, credenciales.clave);
-    if (prop) {
-      let token = this.servicioAutenticacion.GenerarTokenJWT(prop);
->>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
       return {
         datos: {
           nombre: prop.Nombres,
@@ -77,11 +50,7 @@ export class PropietarioController {
         tk: token
       }
     } else {
-<<<<<<< HEAD
       throw new HttpErrors[401]("Datos Invalidos");
-=======
-      throw new HttpErrors[401]("Datos invalidos");
->>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
     }
   }
 
@@ -106,7 +75,6 @@ export class PropietarioController {
     let clave = this.servicioAutenticacion.GenerarClave();
     let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
     propietario.Clave = claveCifrada;
-<<<<<<< HEAD
     let objPropietario = await this.propietarioRepository.create(propietario);
 
 
@@ -117,23 +85,6 @@ export class PropietarioController {
       .then((data: any) => {
         console.log(data);
       });
-=======
-    let p = await this.propietarioRepository.create(propietario);
-
-    //Notificar Usuario
-    let destino = propietario.Correo;
-    let asunto = 'Registro en la plataforma'
-    let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
-    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`).
-      then((data: any) => {
-        console.log(data);
-      })
-    return p;
-
-
-
-  }
->>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
 
     let sms = propietario.Telefono;
     let mensaje = `hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;

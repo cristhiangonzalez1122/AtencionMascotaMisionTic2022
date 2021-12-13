@@ -5,6 +5,10 @@ import { BuscarPropietarioComponent } from './propietario/buscar-propietario/bus
 import { CrearPropietarioComponent } from './propietario/crear-propietario/crear-propietario.component';
 import { EditarPropietarioComponent } from './propietario/editar-propietario/editar-propietario.component';
 import { EliminarPropietarioComponent } from './propietario/eliminar-propietario/eliminar-propietario.component';
+import { BuscarVeterinarioComponent } from './veterinario/buscar-veterinario/buscar-veterinario.component';
+import { CrearVeterinarioComponent } from './veterinario/crear-veterinario/crear-veterinario.component';
+import { EditarVeterinarioComponent } from './veterinario/editar-veterinario/editar-veterinario.component';
+import { EliminarVeterinarioComponent } from './veterinario/eliminar-veterinario/eliminar-veterinario.component';
 
 const routes: Routes = [
   {
@@ -16,12 +20,29 @@ const routes: Routes = [
     component: BuscarPropietarioComponent
   },
   {
-    path:'editar-propietario',
+    path:'editar-propietario/:id',
     component: EditarPropietarioComponent
   },
+  
   {
-    path:'eliminar-propietario',
+    path:'eliminar-propietario/:id',
     component: EliminarPropietarioComponent
+  },
+  {
+    path:'crear-veterinario',
+    component: CrearVeterinarioComponent
+  },
+  {
+    path:'buscar-veterinario',
+    component: BuscarVeterinarioComponent
+  },
+  {
+    path:'editar-veterinario/:id',
+    component: EditarVeterinarioComponent
+  },
+  {
+    path:'eliminar-veterinario/:id',
+    component: EliminarVeterinarioComponent
   },
   {
     path: 'crear-mascota',

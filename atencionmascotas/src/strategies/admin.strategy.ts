@@ -19,7 +19,7 @@ export class EstrategiaAdministrador implements AuthenticationStrategy {
   async authenticate(request: Request): Promise<UserProfile | undefined> {
     let token = parseBearerToken(request);
     if (token) {
-      let datos = this.servicioAutenticacion.validarTokenJWT(token);
+      let datos = this.servicioAutenticacion.validarToken(token);
       if (datos) {
         let perfil: UserProfile = Object.assign({
           nombre: datos.data.nombre

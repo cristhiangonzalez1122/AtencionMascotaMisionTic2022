@@ -1,48 +1,54 @@
 <!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="./identificacion.component.css">
-    <title>Identificacion de Usuarios</title>
+<html>
 
-  </head>
-  <body>
-     <div class="container">
-        <div class="row text-center login-page">
-	   <div class="col-md-12 login-form">
-	      <form [formGroup]="fgValidador" (ngSubmit)="IdentificarUsuario()">
-	         <div class="row">
-		    <div class="col-md-12 login-form-header">
-		       <p class="login-form-font-header"><strong> Identificacion de usuarios</strong><span></span><p>
-		    </div>
-		</div>
-		<div class="row">
-		   <div class="input-field col s12">
-         <i class="material-icons prefix">email</i>
-		      <input formControlName="usuario" autocomplete="email" type="email" class="validate" required/>
-          <label for="email">Usuario</label>
-		   </div>
-		</div>
-		<div class="row">
-		   <div class="input-field col s12">
-        <i class="material-icons prefix">vpn_key</i>
-		      <input formControlName="clave" class="validate" type="password"  required/>
-          <label for="email">Contraseña</label>
-		   </div>
-		</div>
-		<div class="row">
-		   <div class="col-md-12 login-from-row">
-		      <button  [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit" >Ingresar</button>
-		   </div>
-       <div class="col-md-12 login-from-row">
-        <button class="btn btn-info" routerLink="/inicio">volver</button>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="./identificacion.component.css">
+	<title>Identificacion de Usuarios</title>
 
-     </div>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row text-center login-page">
+			<div class="col-md-12 login-form">
+				<form [formGroup]="fgValidador" (ngSubmit)="IdentificarUsuario()">
+					<div class="row">
+						<div class="col-md-12 login-form-header">
+							<p class="login-form-font-header"><strong> Identificacion de usuarios</strong><span></span>
+							<p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<i class="material-icons prefix">email</i>
+							<input formControlName="usuario" autocomplete="email" type="email" class="validate"
+								required />
+							<label for="email">Usuario</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<i class="material-icons prefix">vpn_key</i>
+							<input formControlName="clave" class="validate" type="password" required />
+							<label for="email">Contraseña</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 login-from-row">
+							<button [disabled]="!fgValidador.valid" class="btn btn-primary"
+								type="submit">Ingresar</button>
+						</div>
+						<div class="col-md-12 login-from-row">
+							<button class="btn btn-info" routerLink="/inicio">volver</button>
+
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-	    </form>
 	</div>
-     </div>
-  </div>
 </body>
+
 </html>

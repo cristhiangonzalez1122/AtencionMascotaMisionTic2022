@@ -1,1 +1,78 @@
-<p>buscar-propietario works!</p>
+<a routerLink="/administracion/crear-propietario" class="btn"> Nuevo Cliente</a>
+<a routerLink="/administracion/crear-mascota" class="btn -btn-secondary" id="Mascota" >Crear Mascota</a>
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">
+          Identificacion
+        </th>
+        <th scope="col">
+          Nombres
+        </th>
+        <th scope="col">
+          Apellidos
+        </th>
+        <th scope="col">
+          Telefono
+        </th>
+        <th scope="col">
+          Direccion
+        </th>
+        <th scope="col">
+          Correo
+        </th>
+        <th scope="col">
+          Editar
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prop of listadoRegistrosPropietario">
+        <td>
+          {{prop.Identificacion}}
+        </td>
+        <td>
+          {{prop.Nombres}}
+        </td>
+        <td>
+          {{prop.Apellidos}}
+        </td>
+        <td>
+          {{prop.Telefono}}
+        </td>
+        <td>
+          {{prop.Direccion}}
+        </td>
+        <td>
+          {{prop.Correo}}
+        </td>
+        <td>
+          <a routerLink="/administracion/editar-propietario/{{prop.id}}" class="btn btn-secondary">Editar </a>
+        </td>
+
+
+      </tr>
+
+    </tbody>
+
+  </table>
+</div>
+<!--############## Modal Historial ##############-->
+<div class="container">
+  <div class="modal fade" id="historial-modal" style="background: transparent; box-shadow: none">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background: #009eb4; border-radius: 15px">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color: #ffff; font-size: 20px">
+            Historial
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            style="color: #ffff"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+
+          </div>
+        </div>

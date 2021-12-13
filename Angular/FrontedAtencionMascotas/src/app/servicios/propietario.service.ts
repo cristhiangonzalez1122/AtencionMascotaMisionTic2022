@@ -16,8 +16,12 @@ export class PropietarioService {
   }
 
   ObtenerRegistros(): Observable<ModeloPropietario[]>{
-   return this.http.get<ModeloPropietario[]>(`${this.url}/propietarios`)
+   return this.http.get<ModeloPropietario[]>(`${this.url}/propietarios`);
   }
+
+  ObtenerRegistrosPorId(id: string): Observable<ModeloPropietario>{
+    return this.http.get<ModeloPropietario>(`${this.url}/propietarios/${id}`);
+   }
 
   CrearPropietario(propietario: ModeloPropietario): Observable<ModeloPropietario>{
     return this.http.post<ModeloPropietario>(`${this.url}/propietarios`, propietario, {
@@ -28,7 +32,7 @@ export class PropietarioService {
   }
 
   ActualizarPropietario(propietario: ModeloPropietario): Observable<ModeloPropietario>{
-    return this.http.put<ModeloPropietario>(`${this.url}/propietarios`, propietario, {
+    return this.http.put<ModeloPropietario>(`${this.url}/propietarios/${propietario.id}`, propietario, {
       headers: new HttpHeaders({
         'Autorization': `Bearer ${this.token}`
       })

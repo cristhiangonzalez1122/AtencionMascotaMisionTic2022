@@ -28,7 +28,10 @@
               <a class="nav-link active" routerLink="/programar-visita/crear-consulta" >Solicitar visita</a>
             </li>
             <li *ngIf="seInicioSesion">
-              <a class="nav-link active" routerLink="inicio" >Veterinario</a>
+              <a class="nav-link active" routerLink="/administracion/buscar-veterinario">Veterinario</a>
+            </li>
+            <li *ngIf="seInicioSesion">
+              <a class="nav-link active" routerLink="/administracion/buscar-propietario" >Clientes</a>
             </li>
 
           </ul>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModeloVeterinario } from 'src/app/modelos/veterinario.modelo';
+import { VeterinarioService } from 'src/app/servicios/veterinario.service';
 
 @Component({
   selector: 'app-buscar-veterinario',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BuscarVeterinarioComponent implements OnInit {
 
-  constructor() { }
+  listadoRegistrosVeterinario: ModeloVeterinario[] =[];
+
+  constructor(private veterinarioServicio: VeterinarioService) { }
 
   ngOnInit(): void {
+    this.ObtenerListaVeterinario();
   }
+
+  ObtenerListaVeterinario(){
+  this.veterinarioServicio.ObtenerRegistrosVeterinario().subscribe((datos:ModeloVeterinario[]) => {
+    this.listadoRegistrosVeterinario = datos;
+  })
+}
 
 }

@@ -1,1 +1,51 @@
-<p>crear-veterinario works!</p>
+<div class="container">
+    <div class="container interno">
+      <b>Registro Veterinario</b>
+    </div>
+  
+    <form [formGroup]="fgValidador" (ngSubmit)="GuardarVeterinario()" method="POST" class="row g-3 needs-validation"
+      novalidate>
+      <div class="col-md-4 position-relative">
+        <label for="validationTooltip02" class="form-label">Nombres</label>
+        <input formControlName="nombres" type="text" class="form-control" id="validationTooltip02" required />
+        <div class="valid-tooltip">Looks good!</div>
+      </div>
+      <div class="col-md-4 position-relative">
+        <label for="validationTooltip02" class="form-label">Apellidos</label>
+        <input formControlName="apellidos" type="text" class="form-control" id="validationTooltip02" required />
+        <div class="valid-tooltip">Looks good!</div>
+      </div>
+      <div class="col-md-4 position-relative">
+        <label for="validationTooltip02" class="form-label">Identificacion</label>
+        <div class="input-group has-validation">
+          <input formControlName="identificacion" type="text" class="form-control" id="validationTooltip02"
+            aria-describedby="validationTooltipUsernamePrepend" required />
+          <div class="invalid-tooltip">
+            Please choose a unique and valid username.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 position-relative">
+        <label for="validationTooltip03" class="form-label">Telefono</label>
+        <input formControlName="telefono" type="text" class="form-control" id="validationTooltip02" required />
+        <div class="invalid-tooltip">Please provide a valid city.</div>
+      </div>
+      <div class="col-md-6 position-relative">
+        <label for="validationTooltip03" class="form-label">TarjetaProfesional</label>
+        <input formControlName="tarjetaProfesional" type="text" class="form-control" id="validationTooltip02" required />
+        <div class="invalid-tooltip">Please provide a valid city.</div>
+      </div>
+      <div class="col-md-12 position-relative">
+        <label for="validationTooltip03" class="form-label">Correo</label>
+        <input formControlName="correo" type="text" class="form-control" id="validationTooltip02" required />
+        <div class="invalid-tooltip">Por favor ingrese un correo válido.</div>
+      </div>
+  
+      <div class="col-6 position-center">
+        <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit">Guardar</button>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-primary" routerLink="/inicio">Regresar</button>
+      </div>
+    </form>
+  </div>

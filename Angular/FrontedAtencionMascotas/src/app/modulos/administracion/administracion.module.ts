@@ -22,7 +22,7 @@ import { CrearTipoComponent } from './tipoAnimal/crear-tipo/crear-tipo.component
 import { EditarTipoComponent } from './tipoAnimal/editar-tipo/editar-tipo.component';
 import { EliminarTipoComponent } from './tipoAnimal/eliminar-tipo/eliminar-tipo.component';
 import { BuscarTipoComponent } from './tipoAnimal/buscar-tipo/buscar-tipo.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,9 @@ import { BuscarTipoComponent } from './tipoAnimal/buscar-tipo/buscar-tipo.compon
   ],
   imports: [
     CommonModule,
-    AdministracionRoutingModule
+    AdministracionRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AdministracionModule { }

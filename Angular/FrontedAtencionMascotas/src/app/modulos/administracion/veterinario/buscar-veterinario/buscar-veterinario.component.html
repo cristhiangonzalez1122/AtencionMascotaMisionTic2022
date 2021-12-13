@@ -1,1 +1,62 @@
-<p>buscar-veterinario works!</p>
+<a routerLink="/administracion/crear-veterinario" class="btn"> "Nuevo Veterinario</a>
+<table class="table responsive">
+    <thead>
+        <tr>
+            <th>
+                Identificacion
+            </th>
+            <th>
+                Nombres
+            </th>
+            <th>
+                Apellidos
+            </th>
+            <th>
+                Telefono
+            </th>
+            <th>
+                Tarjeta Profesional
+            </th>
+            <th>
+                Correo
+            </th>
+            <th>
+                Editar
+            </th>
+            <th>
+                Eliminar
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let vet of listadoRegistrosVeterinario">
+            <td>
+                {{vet.Identificacion}}
+            </td>
+            <td>
+                {{vet.Nombres}}
+            </td>
+            <td>
+                {{vet.Apellidos}}
+            </td>
+            <td>
+                {{vet.Telefono}}
+            </td>
+            <td>
+                {{vet.TarjetaProfesional}}
+            </td>
+            <td>
+                {{vet.Correo}}
+            </td>
+            <td>
+                <a routerLink="/administracion/editar-veterinario/{{vet.id}}">Editar </a>
+            </td>
+            <td>
+                <a routerLink="/administracion/eliminar-veterinario/{{vet.id}}">Eliminar </a>
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
