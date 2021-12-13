@@ -1,0 +1,47 @@
+.container {
+    position: relative;
+    width: 800px;
+    margin-top: 8%;
+    background: #05a2c5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+  }
+  
+  label {
+    color: white;
+    font-size: 15px;
+  }
+  
+  #validationTooltip02 {
+    background-color: white;
+    border-radius: 10px;
+  }
+  
+  .interno {
+    margin-bottom: 20px;
+    box-shadow: none;
+    background: #007691;
+    border-radius: 15px;
+    position: relative;
+    top: 0%;
+    left: -1.5%;
+    width: 800px;
+    height: 71px;
+  }
+  
+  b {
+    position: relative;
+    left: 38%;
+    top: 20%;
+    font-size: 25px;
+    color: #ffff;
+  }
+  
+  .btn-primary {
+    background: #00c064;
+    border-radius: 15px;
+    border-color: #00c064;
+    margin-bottom: 15px;
+  
+  }
+  

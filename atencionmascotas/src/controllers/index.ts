@@ -17,4 +17,7 @@ export * from './mascotas.controller';
 export * from './programavisita.controller';
 export * from './visitamedica.controller';
 export * from './persona.controller';
+<<<<<<< HEAD
 export * from './propietario.controller';
+=======
+>>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda

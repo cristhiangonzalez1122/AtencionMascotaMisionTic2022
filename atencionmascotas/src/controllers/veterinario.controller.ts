@@ -14,9 +14,13 @@ import {Credenciales, Veterinario} from '../models';
 import {VeterinarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 const fetch = require('node-fetch');
+<<<<<<< HEAD
 
 @authenticate("veterinario")
 
+=======
+@authenticate("admin")
+>>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
 export class VeterinarioController {
   constructor(
     @repository(VeterinarioRepository)
@@ -25,6 +29,7 @@ export class VeterinarioController {
     public servicioAutenticacion: AutenticacionService
   ) { }
 
+<<<<<<< HEAD
   @post("/identificarVeterinario", {
     responses: {
       '200': {
@@ -36,6 +41,20 @@ export class VeterinarioController {
     @requestBody() credendiales: Credenciales
   ) {
     let vet = await this.servicioAutenticacion.IdentificarVeterinario(credendiales.usuario, credendiales.clave);
+=======
+  @post('/identificarVeterinario', {
+    responses: {
+      '200': {
+        description: "Identificacion de usuarios"
+      }
+    }
+  })
+  async validarVeterinario(
+    @requestBody() credenciales: Credenciales
+  ) {
+
+    let vet = await this.servicioAutenticacion.IdentificarVeterinario(credenciales.usuario, credenciales.clave);
+>>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
     if (vet) {
       let token = this.servicioAutenticacion.GenerarTokenVeterianrio(vet);
       return {
@@ -47,7 +66,11 @@ export class VeterinarioController {
         tk: token
       }
     } else {
+<<<<<<< HEAD
       throw new HttpErrors[401]("Datos Invalidos");
+=======
+      throw new HttpErrors[401]("Datos invalidos");
+>>>>>>> ef4b19c9f327157e59af16542af0046de27f6fda
     }
   }
 

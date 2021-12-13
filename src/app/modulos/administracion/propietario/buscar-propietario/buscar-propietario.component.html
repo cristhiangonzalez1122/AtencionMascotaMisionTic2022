@@ -1,0 +1,62 @@
+<a routerLink="/administracion/crear-propietario" class="btn"> "Nuevo Cliente</a>
+<table class="table responsive">
+    <thead>
+        <tr>
+            <th>
+                Identificacion
+            </th>
+            <th>
+                Nombres
+            </th>
+            <th>
+                Apellidos
+            </th>
+            <th>
+                Telefono
+            </th>
+            <th>
+                Direccion
+            </th>
+            <th>
+                Correo
+            </th>
+            <th>
+                Editar
+            </th>
+            <th>
+                Eliminar
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let prop of listadoRegistrosPropietario">
+            <td>
+                {{prop.Identificacion}}
+            </td>
+            <td>
+                {{prop.Nombres}}
+            </td>
+            <td>
+                {{prop.Apellidos}}
+            </td>
+            <td>
+                {{prop.Telefono}}
+            </td>
+            <td>
+                {{prop.Direccion}}
+            </td>
+            <td>
+                {{prop.Correo}}
+            </td>
+            <td>
+                <a routerLink="/administracion/editar-propietario/{{prop.id}}">Editar </a>
+            </td>
+            <td>
+                <a routerLink="/administracion/eliminar-propietario/{{prop.id}}">Eliminar </a>
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>

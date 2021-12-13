@@ -10,9 +10,7 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
-import {EstrategiaPropietario} from './strategies/admin.strategy';
-import {EstrategiaVeterinario} from './strategies/vet.stragy';
-
+import {EstrategiaAdministrador} from './strategies/admin.strategy';
 
 export {ApplicationConfig};
 
@@ -44,9 +42,9 @@ export class AtencionmascotasApplication extends BootMixin(
         nested: true,
       },
     };
-    registerAuthenticationStrategy(this, EstrategiaPropietario);
+
+    registerAuthenticationStrategy(this, EstrategiaAdministrador);
     this.component(AuthenticationComponent);
-    registerAuthenticationStrategy(this, EstrategiaVeterinario);
-    this.component(AuthenticationComponent);
+
   }
 }
