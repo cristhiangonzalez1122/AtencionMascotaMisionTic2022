@@ -36,6 +36,11 @@ export class Propietario extends Persona {
   @hasOne(() => ProgramarVisita)
   programarVisita: ProgramarVisita;
 
+  @property({
+    type: 'string',
+  })
+  roleId?: string;
+
   constructor(data?: Partial<Propietario>) {
     super(data);
   }

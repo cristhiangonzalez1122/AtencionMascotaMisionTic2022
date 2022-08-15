@@ -17,3 +17,5 @@ export * from './veterinario-programar-visita.controller';
 export * from './veterinario-visita-medico.controller';
 export * from './veterinario.controller';
 export * from './visitamedica.controller';
+export * from './role-propietario.controller';
+export * from './role.controller';

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+/* eslint-disable prefer-const */
 import {AuthenticationStrategy} from '@loopback/authentication';
 import {service} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
@@ -10,11 +12,8 @@ export class EstrategiaAdministrador implements AuthenticationStrategy {
 
   constructor(
     @service(AutenticacionService)
-    public servicioAutenticacion: AutenticacionService
-  ) {
-
-  }
-
+    public servicioAutenticacion: AutenticacionService,
+  ) {}
 
   async authenticate(request: Request): Promise<UserProfile | undefined> {
     let token = parseBearerToken(request);
@@ -22,14 +21,14 @@ export class EstrategiaAdministrador implements AuthenticationStrategy {
       let datos = this.servicioAutenticacion.validarToken(token);
       if (datos) {
         let perfil: UserProfile = Object.assign({
-          nombre: datos.data.nombre
+          nombre: datos.data.nombre,
         });
         return perfil;
       } else {
-        throw new HttpErrors[401]("El token incluido no es valido.")
+        throw new HttpErrors[401]('El token incluido no es valido.');
       }
     } else {
-      throw new HttpErrors[401]("No se ha incluido token en la solicitud.")
+      throw new HttpErrors[401]('No se ha incluido token en la solicitud.');
     }
   }
 }

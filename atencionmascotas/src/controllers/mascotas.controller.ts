@@ -14,16 +14,16 @@ import {
 } from '@loopback/rest';
 import {Mascotas} from '../models';
 import {MascotasRepository} from '../repositories';
-
+@authenticate("propietario")
 export class MascotasController {
   constructor(
     @repository(MascotasRepository)
     public mascotasRepository: MascotasRepository,
   ) { }
-  @authenticate("propietario")
+
 
   @post('/mascotas')
-  @response(200, {
+  @response(201, {
     description: 'Mascotas model instance',
     content: {'application/json': {schema: getModelSchemaRef(Mascotas)}},
   })
@@ -53,7 +53,7 @@ export class MascotasController {
   ): Promise<Count> {
     return this.mascotasRepository.count(where);
   }
-
+  @authenticate.skip()
   @get('/mascotas')
   @response(200, {
     description: 'Array of Mascotas model instances',

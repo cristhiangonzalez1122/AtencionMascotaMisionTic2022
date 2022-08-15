@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {authenticate} from '@loopback/authentication';
 import {service} from '@loopback/core';
 import {
@@ -6,12 +7,19 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
-  del, get,
-  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
-  response
+  del,
+  get,
+  getModelSchemaRef,
+  HttpErrors,
+  param,
+  patch,
+  post,
+  put,
+  requestBody,
+  response,
 } from '@loopback/rest';
 import {Llaves} from '../config/llaves';
 import {Credenciales, Propietario} from '../models';
@@ -24,33 +32,33 @@ export class PropietarioController {
     @repository(PropietarioRepository)
     public propietarioRepository: PropietarioRepository,
     @service(AutenticacionService)
-    public servicioAutenticacion: AutenticacionService
-  ) { }
+    public servicioAutenticacion: AutenticacionService,
+  ) {}
 
-
-  @post("/identificarPropietario", {
+  @post('/identificarPropietario', {
     responses: {
       '200': {
-        description: "Identificar Usuarios"
-      }
-    }
+        description: 'Identificar Usuarios',
+      },
+    },
   })
-  async identificarPersona(
-    @requestBody() credendiales: Credenciales
-  ) {
-    let prop = await this.servicioAutenticacion.IdentificarPropietario(credendiales.usuario, credendiales.clave);
+  async identificarPersona(@requestBody() credendiales: Credenciales) {
+    const prop = await this.servicioAutenticacion.IdentificarPropietario(
+      credendiales.usuario,
+      credendiales.clave,
+    );
     if (prop) {
-      let token = this.servicioAutenticacion.GenerarTokenPropietario(prop);
+      const token = this.servicioAutenticacion.GenerarTokenPropietario(prop);
       return {
         datos: {
           nombre: prop.Nombres,
           correo: prop.Correo,
-          id: prop.id
+          id: prop.id,
         },
-        tk: token
-      }
+        tk: token,
+      };
     } else {
-      throw new HttpErrors[401]("Datos Invalidos");
+      throw new HttpErrors[401]('Datos Invalidos');
     }
   }
 
@@ -72,26 +80,27 @@ export class PropietarioController {
     })
     propietario: Omit<Propietario, 'id'>,
   ): Promise<Propietario> {
-    let clave = this.servicioAutenticacion.GenerarClave();
-    let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
+    const clave = this.servicioAutenticacion.GenerarClave();
+    const claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
     propietario.Clave = claveCifrada;
-    let objPropietario = await this.propietarioRepository.create(propietario);
+    const objPropietario = await this.propietarioRepository.create(propietario);
 
+    const destino = propietario.Correo;
+    const asunto = 'Registro en la App Atencion Mascotas';
+    const contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo} y su contraseña es: ${clave}`;
+    fetch(
+      `${Llaves.urlServicioNotificaciones}/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`,
+    ).then((data: any) => {
+      console.log(data);
+    });
 
-    let destino = propietario.Correo;
-    let asunto = 'Registro en la App Atencion Mascotas';
-    let contenido = `Hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo} y su contraseña es: ${clave}`;
-    fetch(`${Llaves.urlServicioNotificaciones}/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
-      .then((data: any) => {
-        console.log(data);
-      });
-
-    let sms = propietario.Telefono;
-    let mensaje = `hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
-    fetch(`${Llaves.urlServicioNotificaciones}/envio-sms?mensaje=${mensaje}&telefono=${sms}`)
-      .then((data: any) => {
-        console.log(data);
-      });
+    const sms = propietario.Telefono;
+    const mensaje = `hola ${propietario.Nombres}, su nombre de usuario es: ${propietario.Correo}, y su contraseña es: ${clave}`;
+    fetch(
+      `${Llaves.urlServicioNotificaciones}/envio-sms?mensaje=${mensaje}&telefono=${sms}`,
+    ).then((data: any) => {
+      console.log(data);
+    });
     return objPropietario;
   }
   @authenticate.skip()
@@ -154,7 +163,8 @@ export class PropietarioController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Propietario, {exclude: 'where'}) filter?: FilterExcludingWhere<Propietario>
+    @param.filter(Propietario, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Propietario>,
   ): Promise<Propietario> {
     return this.propietarioRepository.findById(id, filter);
   }

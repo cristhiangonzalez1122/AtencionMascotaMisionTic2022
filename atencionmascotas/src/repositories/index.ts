@@ -6,3 +6,4 @@ export * from './propietario.repository';
 export * from './tipo-animal.repository';
 export * from './veterinario.repository';
 export * from './visita-medico.repository';
+export * from './role.repository';
