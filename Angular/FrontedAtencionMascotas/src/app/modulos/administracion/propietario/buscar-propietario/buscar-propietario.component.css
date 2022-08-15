@@ -1,12 +1,27 @@
-#exampleInputEmail1{
-    text-decoration-color: black;
-  }
+#exampleInputEmail1 {
+  text-decoration-color: black;
+}
 
-  a{
-    background-color: rgb(9, 184, 238);
-    color: black;
-  }
+a {
+  background-color: rgb(9, 184, 238);
+  color: black;
+}
 
-   #Mascota{
-    position: absolute; left: 17%;
-   }
+#Mascota {
+  position: absolute;
+  left: 17%;
+}
+
+.table-hover {
+  width: 100%;
+  margin-bottom: 320px;
+  background-color: aquamarine;
+
+}
+
+.table-wrapper-scroll-y {
+  margin: 0;
+  padding: 0;
+  bottom: 200px;
+
+}

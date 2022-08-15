@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BuscarMascotaComponent } from './mascotas/buscar-mascota/buscar-mascota.component';
 import { CrearMascotaComponent } from './mascotas/crear-mascota/crear-mascota.component';
 import { BuscarPropietarioComponent } from './propietario/buscar-propietario/buscar-propietario.component';
 import { CrearPropietarioComponent } from './propietario/crear-propietario/crear-propietario.component';
@@ -23,7 +24,7 @@ const routes: Routes = [
     path:'editar-propietario/:id',
     component: EditarPropietarioComponent
   },
-  
+
   {
     path:'eliminar-propietario/:id',
     component: EliminarPropietarioComponent
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'crear-mascota',
     component: CrearMascotaComponent
+  },
+  {
+    path: 'buscar-mascota',
+    component: BuscarMascotaComponent
   }
 ];
 
